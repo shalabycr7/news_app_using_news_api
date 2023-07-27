@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <application
-        android:label="news_app"
+        android:label="news_app_using_news_api"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
+        
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
