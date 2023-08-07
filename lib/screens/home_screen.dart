@@ -5,11 +5,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
 import 'package:news_app/data/data.dart';
 import 'package:news_app/data/repositories/all_news_repo.dart';
-import 'package:news_app/screens/news_details_screen.dart';
 import 'package:news_app/shared/news_card.dart';
+import 'package:news_app/theme/color_schemes.g.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    _saveAlreadySeen();
+  }
+
+  Future<void> _saveAlreadySeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('alreadySeen', true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +74,9 @@ class Home extends StatelessWidget {
                   Container(
                     width: screenSize.width * (42 / 375),
                     height: screenSize.height * (43 / 812),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color.fromARGB(255, 255, 58, 68),
+                      color: Theme.of(context).primaryColor,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -107,9 +124,7 @@ class Home extends StatelessWidget {
                           width: 5,
                         ),
                         InkWell(
-                          onTap: () {
-
-                          },
+                          onTap: () {},
                           child: const Icon(
                             Icons.arrow_forward_outlined,
                             size: 19,
@@ -140,7 +155,8 @@ class Home extends StatelessWidget {
                             image: state.finalData.articles![index].urlToImage!,
                             title: state.finalData.articles![index].title!,
                             author: state.finalData.articles![index].author!,
-                            bottom: state.finalData.articles![index].description!,
+                            bottom:
+                                state.finalData.articles![index].description!,
                             content: state.finalData.articles![index].content!,
                             date: state.finalData.articles![index].publishedAt!,
                           );

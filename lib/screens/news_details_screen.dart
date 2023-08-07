@@ -23,6 +23,7 @@ class NewsDetailsScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 255, 58, 68),
         elevation: 0,
+        tooltip: 'Add to favourite',
         onPressed: () {},
         child: SvgPicture.asset(
           'assets/icons/hart.svg',

@@ -4,16 +4,24 @@ import 'package:news_app/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
 import 'package:news_app/data/firebase_api.dart';
 import 'package:news_app/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:news_app/screens/onboarding_screen.dart';
+import 'package:news_app/theme/color_schemes.g.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool alreadySeen = prefs.getBool('alreadySeen') ?? false;
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FireBaseApi().intitNot();
-  runApp(const MyApp());
+  runApp(MyApp(alreadySeen: alreadySeen));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool alreadySeen;
+
+  const MyApp({super.key, required this.alreadySeen});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +33,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'News App',
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-        ),
-        home: const Home(),
+        title: 'News Wave',
+        theme:ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        home: alreadySeen ? const Home() : const OnBoardingScreen(),
       ),
     );
   }
