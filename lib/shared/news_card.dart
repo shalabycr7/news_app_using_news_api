@@ -42,7 +42,8 @@ class CardImage extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
         width: double.infinity,
-        height: (240 / 812).sh,
+        height:
+            ScreenUtil().orientation == Orientation.portrait ? 0.3.sh : 0.5.sh,
         child: Stack(
           children: [
             ClipRRect(
@@ -61,7 +62,7 @@ class CardImage extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(67, 67, 67, 0.7),
+                color: const Color.fromRGBO(67, 67, 67, 0.5),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
