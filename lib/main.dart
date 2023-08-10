@@ -6,7 +6,7 @@ import 'package:news_app/data/firebase_api.dart';
 import 'package:news_app/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:news_app/screens/onboarding_screen.dart';
-import 'package:news_app/theme/color_schemes.g.dart';
+import 'package:news_app/theme/color_schemes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {

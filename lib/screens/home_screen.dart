@@ -7,7 +7,7 @@ import 'package:news_app/data/cubits/theme_cubit/cubit/theme_cubit.dart';
 import 'package:news_app/data/data.dart';
 import 'package:news_app/data/repositories/all_news_repo.dart';
 import 'package:news_app/shared/news_card.dart';
-import 'package:news_app/theme/color_schemes.g.dart';
+import 'package:news_app/theme/color_schemes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
