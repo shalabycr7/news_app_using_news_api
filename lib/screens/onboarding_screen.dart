@@ -11,8 +11,6 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class OnBoardingPageState extends State<OnBoardingScreen> {
-
-
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
@@ -33,7 +31,6 @@ class OnBoardingPageState extends State<OnBoardingScreen> {
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-      pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
 
@@ -41,14 +38,12 @@ class OnBoardingPageState extends State<OnBoardingScreen> {
       body: SafeArea(
         child: IntroductionScreen(
           key: introKey,
-          globalBackgroundColor: Colors.white,
           allowImplicitScrolling: true,
           autoScrollDuration: 3000,
           infiniteAutoScroll: true,
           globalHeader: const Align(
             alignment: Alignment.topRight,
           ),
-      
           pages: [
             PageViewModel(
               title: "Find Leagues Info",
@@ -70,16 +65,17 @@ class OnBoardingPageState extends State<OnBoardingScreen> {
             ),
           ],
           onDone: () => _onIntroEnd(context),
-          onSkip: () => _onIntroEnd(context), // You can override onSkip callback
+          onSkip: () => _onIntroEnd(context),
           showSkipButton: true,
           skipOrBackFlex: 0,
           nextFlex: 0,
           showBackButton: false,
-          //rtl: true, // Display as right-to-left
           back: const Icon(Icons.arrow_back),
-          skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600)),
+          skip:
+              const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600)),
           next: const Icon(Icons.arrow_forward),
-          done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+          done:
+              const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
           curve: Curves.fastLinearToSlowEaseIn,
           controlsMargin: const EdgeInsets.all(16),
           controlsPadding: kIsWeb
@@ -87,7 +83,6 @@ class OnBoardingPageState extends State<OnBoardingScreen> {
               : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
           dotsDecorator: const DotsDecorator(
             size: Size(10.0, 10.0),
-            color: Color(0xFFBDBDBD),
             activeSize: Size(22.0, 10.0),
             activeShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),

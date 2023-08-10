@@ -10,10 +10,13 @@ class NewsDetailsScreen extends StatelessWidget {
   final String author;
   final String date;
 
-
-
-
-  const NewsDetailsScreen({super.key,required this.image, required this.content, required this.desc, required this.author, required this.date});
+  const NewsDetailsScreen(
+      {super.key,
+      required this.image,
+      required this.content,
+      required this.desc,
+      required this.author,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,6 @@ class NewsDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 255, 58, 68),
         elevation: 0,
         tooltip: 'Add to favourite',
         onPressed: () {},
@@ -48,7 +50,6 @@ class NewsDetailsScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.5,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30)),
@@ -64,15 +65,12 @@ class NewsDetailsScreen extends StatelessWidget {
                             style: GoogleFonts.nunito(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 46, 5, 5),
                             ),
                           ),
                           TextSpan(
-                            text:
-                                content,
+                            text: content,
                             style: GoogleFonts.nunito(
                               fontSize: 15,
-                              color: const Color.fromARGB(255, 46, 5, 5),
                             ),
                           ),
                         ],
@@ -100,15 +98,12 @@ class NewsDetailsScreen extends StatelessWidget {
                         Text(date,
                             style: GoogleFonts.nunito(
                               fontSize: 12,
-                              color: const Color.fromARGB(255, 46, 5, 5),
                             )),
                         const Spacer(),
-                        Text(
-                            desc,
+                        Text(desc,
                             style: GoogleFonts.lora(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 46, 5, 5),
                             )),
                         const Spacer(),
                         Text(
@@ -116,7 +111,6 @@ class NewsDetailsScreen extends StatelessWidget {
                           style: GoogleFonts.nunito(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 46, 5, 5),
                           ),
                         )
                       ]),

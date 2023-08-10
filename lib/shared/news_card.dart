@@ -16,7 +16,9 @@ class CardImage extends StatelessWidget {
     required this.bottom,
     required this.image,
     required this.title,
-    required this.author, required this.content, required this.date,
+    required this.author,
+    required this.content,
+    required this.date,
   });
 
   @override
@@ -34,7 +36,6 @@ class CardImage extends StatelessWidget {
               child: Image.network(
                 image,
                 fit: BoxFit.cover,
-                width: screensize.width,
               ),
             ),
             InkWell(
@@ -42,7 +43,12 @@ class CardImage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>  NewsDetailsScreen(image: image,content: content,desc: title,author: author,date:date ),
+                    builder: (context) => NewsDetailsScreen(
+                        image: image,
+                        content: content,
+                        desc: title,
+                        author: author,
+                        date: date),
                   ),
                 );
               },

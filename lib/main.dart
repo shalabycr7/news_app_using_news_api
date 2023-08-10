@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
+import 'package:news_app/data/cubits/theme_cubit/cubit/theme_cubit.dart';
 import 'package:news_app/data/firebase_api.dart';
 import 'package:news_app/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,13 +31,22 @@ class MyApp extends StatelessWidget {
         BlocProvider<AllNewsCubit>(
           create: (context) => AllNewsCubit(),
         ),
+        BlocProvider<ThemeCubit>(
+          create: (context) => ThemeCubit(),
+        ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'News Wave',
-        theme:ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-        home: alreadySeen ? const Home() : const OnBoardingScreen(),
+      child: BlocBuilder<ThemeCubit, bool>(
+        builder: (context, isDarkMode) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'News Wave',
+            theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+            darkTheme:
+                ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+            themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: alreadySeen ? const Home() : const OnBoardingScreen(),
+          );
+        },
       ),
     );
   }
