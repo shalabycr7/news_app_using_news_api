@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/data/models/all_news/all_news.dart';
-import 'package:news_app/data/repositories/all_news_repo.dart';
+import 'package:news_wave/data/models/all_news/all_news.dart';
+import 'package:news_wave/data/repositories/all_news_repo.dart';
 
 part 'all_news_state.dart';
 

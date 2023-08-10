@@ -1,5 +1,6 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,22 +11,20 @@ class NewsDetailsScreen extends StatelessWidget {
   final String author;
   final String date;
 
-  const NewsDetailsScreen(
-      {super.key,
-      required this.image,
-      required this.content,
-      required this.desc,
-      required this.author,
-      required this.date});
+  const NewsDetailsScreen({
+    Key? key,
+    required this.image,
+    required this.content,
+    required this.desc,
+    required this.author,
+    required this.date,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var screensize = MediaQuery.of(context).size;
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        tooltip: 'Add to favourite',
+        tooltip: 'Add to favorite',
         onPressed: () {},
         child: SvgPicture.asset(
           'assets/icons/hart.svg',
@@ -33,105 +32,100 @@ class NewsDetailsScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SizedBox(
-          width: screensize.width,
-          height: screensize.height,
-          child: Stack(children: [
-            SizedBox(
-              width: screensize.width,
-              height: screensize.height * (0.6),
-              child: Image.network(
-                image,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.5,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
+          width: ScreenUtil().screenWidth,
+          height: ScreenUtil().screenHeight,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Positioned(
+                top: 0,
+                child: SizedBox(
+                  height: (0.35).sh,
+                  width: ScreenUtil().screenWidth,
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 120, left: 15, right: 15),
-                  child: SingleChildScrollView(
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'LONDON ',
-                            style: GoogleFonts.nunito(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(
-                            text: content,
-                            style: GoogleFonts.nunito(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
+              ),
+              Container(
+                height: (0.65).sh,
+                width: ScreenUtil().screenWidth,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Text(
+                    content,
+                    style: GoogleFonts.nunito(
+                      fontSize: 13.sp,
+                      color: Colors.amber,
                     ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              top: screensize.height * (281 / 812),
-              left: screensize.width * (32 / 375),
-              right: screensize.width * (32 / 375),
-              child: BlurryContainer(
-                width: screensize.width * 0.7,
-                blur: 50,
-                height: screensize.height * (171 / 812),
-                child: Padding(
+              Positioned(
+                top: 0.2.sh,
+                child: BlurryContainer(
+                  width: 0.8.sw,
+                  blur: 50,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  height: ScreenUtil().orientation == Orientation.portrait
+                      ? 0.2.sh
+                      : 0.32.sh,
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Spacer(),
-                        Text(date,
-                            style: GoogleFonts.nunito(
-                              fontSize: 12,
-                            )),
-                        const Spacer(),
-                        Text(desc,
-                            style: GoogleFonts.lora(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        const Spacer(),
-                        Text(
-                          "Published by $author",
-                          style: GoogleFonts.nunito(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ]),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Spacer(),
+                      Text(
+                        date,
+                        style: GoogleFonts.nunito(
+                          fontSize: 10.sp,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        desc,
+                        style: GoogleFonts.lora(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        "Published by $author",
+                        style: GoogleFonts.nunito(
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              top: 15,
-              left: 15,
-              child: BlurryContainer(
-                blur: 150,
-                child: IconButton(
+              Positioned(
+                top: 15,
+                left: 15,
+                child: BlurryContainer(
+                  blur: 50,
+                  child: IconButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back_ios_outlined,
-                    )),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
         ),
       ),
     );

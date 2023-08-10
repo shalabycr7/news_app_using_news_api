@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
-import 'package:news_app/data/cubits/theme_cubit/cubit/theme_cubit.dart';
-import 'package:news_app/data/firebase_api.dart';
-import 'package:news_app/screens/home_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_wave/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
+import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
+import 'package:news_wave/data/firebase_api.dart';
+import 'package:news_wave/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:news_app/screens/onboarding_screen.dart';
-import 'package:news_app/theme/color_schemes.dart';
+import 'package:news_wave/screens/onboarding_screen.dart';
+import 'package:news_wave/theme/color_schemes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -37,14 +38,22 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeCubit, bool>(
         builder: (context, isDarkMode) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'News Wave',
-            theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-            darkTheme:
-                ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-            themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-            home: alreadySeen ? const Home() : const OnBoardingScreen(),
+          return ScreenUtilInit(
+            designSize: const Size(360, 690),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (BuildContext context, Widget? child) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'News Wave',
+                theme: ThemeData(
+                    useMaterial3: true, colorScheme: lightColorScheme),
+                darkTheme:
+                    ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+                themeMode: ThemeMode.system,
+                home: alreadySeen ? const Home() : const OnBoardingScreen(),
+              );
+            },
           );
         },
       ),

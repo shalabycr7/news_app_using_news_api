@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:news_app/data/models/all_news/all_news.dart';
+import 'package:news_wave/data/models/all_news/all_news.dart';
 
 class AllNewsRepo {
   Future<AllNews?> getAllNews() async {
