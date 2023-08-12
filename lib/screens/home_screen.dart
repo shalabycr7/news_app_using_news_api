@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_wave/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
-import 'package:news_wave/data/repositories/all_news_repo.dart';
 import 'package:news_wave/shared/news_card.dart';
 import 'package:news_wave/theme/color_schemes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 TextEditingController searchText = TextEditingController();
 
@@ -140,12 +140,37 @@ class Home extends StatelessWidget {
       child: BlocBuilder<AllNewsCubit, AllNewsState>(
         builder: (context, state) {
           if (state is AllNewsInitial) {
-            return const Center(
-              child: Text("Press the refresh button to get all news"),
-            );
+            context
+                .read<AllNewsCubit>()
+                .getAllNews(searchText.text.isEmpty ? null : searchText.text);
+            return const Center(child: CircularProgressIndicator());
           } else if (state is AllNewsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade200,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        width: double.infinity,
+                        height: ScreenUtil().orientation == Orientation.portrait
+                            ? 0.3.sh
+                            : 0.5.sh,
+                        child: Stack(children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Opacity(
+                                  opacity: 0.5,
+                                  child: Icon(Icons.image_outlined)),
+                            ),
+                          ),
+                        ])));
+              },
             );
           } else if (state is AllNewsSuccess) {
             return ListView.builder(

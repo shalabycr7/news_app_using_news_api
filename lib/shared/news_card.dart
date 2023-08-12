@@ -57,7 +57,10 @@ class CardImage extends StatelessWidget {
                   imageUrl: image,
                   placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.hide_image_outlined,
+                   
+                  ),
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
@@ -77,7 +80,7 @@ class CardImage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    'by $author',
+                    author,
                     style: GoogleFonts.nunito(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.bold,
