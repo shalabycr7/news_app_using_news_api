@@ -11,6 +11,7 @@ class CardImage extends StatelessWidget {
   final String content;
   final String bottom;
   final String date;
+  final String link;
 
   const CardImage({
     Key? key,
@@ -20,6 +21,7 @@ class CardImage extends StatelessWidget {
     required this.author,
     required this.content,
     required this.date,
+    required this.link,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class CardImage extends StatelessWidget {
               desc: title,
               author: author,
               date: date,
+              givenUrl: link,
             ),
           ),
         );
@@ -59,7 +62,6 @@ class CardImage extends StatelessWidget {
                       const Center(child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(
                     Icons.hide_image_outlined,
-                   
                   ),
                   fit: BoxFit.cover,
                   width: double.infinity,

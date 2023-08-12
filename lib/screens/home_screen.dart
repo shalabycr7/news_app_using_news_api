@@ -186,6 +186,7 @@ class Home extends StatelessWidget {
                   content: state.finalData.articles![index].content!,
                   date:
                       state.finalData.articles![index].publishedAt ?? 'unknown',
+                      link: state.finalData.articles![index].url!,
                 );
               },
             );

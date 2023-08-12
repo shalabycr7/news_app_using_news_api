@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
 import 'package:news_wave/theme/color_schemes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsDetailsScreen extends StatelessWidget {
   final String image;
@@ -13,15 +14,24 @@ class NewsDetailsScreen extends StatelessWidget {
   final String desc;
   final String author;
   final String date;
+  final String givenUrl;
 
-  const NewsDetailsScreen({
-    Key? key,
-    required this.image,
-    required this.content,
-    required this.desc,
-    required this.author,
-    required this.date,
-  }) : super(key: key);
+  const NewsDetailsScreen(
+      {Key? key,
+      required this.image,
+      required this.content,
+      required this.desc,
+      required this.author,
+      required this.date,
+      required this.givenUrl})
+      : super(key: key);
+
+  Future<void> _launchUrl(String link) async {
+    final Uri wantedUrl = Uri.parse(link);
+    if (!await launchUrl(wantedUrl)) {
+      throw Exception('Could not launch $wantedUrl');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +42,15 @@ class NewsDetailsScreen extends StatelessWidget {
           data: currentTheme,
           child: Scaffold(
             backgroundColor: currentTheme.scaffoldBackgroundColor,
+            floatingActionButton: FloatingActionButton(
+                tooltip: 'Add to favorite',
+                onPressed: () {
+                  _launchUrl(givenUrl);
+                },
+                child: const Icon(
+                  Icons.launch,
+                  size: 30,
+                )),
             body: SafeArea(
               child: SizedBox(
                 width: ScreenUtil().screenWidth,
