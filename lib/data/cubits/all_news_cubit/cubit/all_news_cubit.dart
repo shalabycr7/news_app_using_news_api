@@ -7,9 +7,9 @@ part 'all_news_state.dart';
 
 class AllNewsCubit extends Cubit<AllNewsState> {
   AllNewsCubit() : super(AllNewsInitial());
-  getAllNews() {
+  getAllNews(String? text) {
     emit(AllNewsLoading());
-    AllNewsRepo().getAllNews().then((value) {
+    AllNewsRepo().getAllNews(text: text).then((value) {
       if (value != null) {
         emit(AllNewsSuccess(finalData: value));
       } else {

@@ -10,6 +10,8 @@ import 'package:news_wave/shared/news_card.dart';
 import 'package:news_wave/theme/color_schemes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+TextEditingController searchText = TextEditingController();
+
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -47,8 +49,6 @@ class Home extends StatelessWidget {
 
   void _initialize(BuildContext context) async {
     _saveAlreadySeen();
-    AllNewsRepo().getAllNews();
-    context.read<AllNewsCubit>().getAllNews();
   }
 
   Future<void> _saveAlreadySeen() async {
@@ -64,6 +64,7 @@ class Home extends StatelessWidget {
       children: [
         Expanded(
           child: TextFormField(
+            controller: searchText,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(horizontal: 15),
               border: OutlineInputBorder(
@@ -79,7 +80,8 @@ class Home extends StatelessWidget {
                 ),
                 iconSize: 20,
                 onPressed: () {
-                  context.read<ThemeCubit>().toggleTheme();
+                  context.read<AllNewsCubit>().getAllNews(
+                      searchText.text.isEmpty ? null : searchText.text);
                 },
               ),
             ),
@@ -121,7 +123,8 @@ class Home extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                context.read<AllNewsCubit>().getAllNews();
+                context.read<AllNewsCubit>().getAllNews(
+                    searchText.text.isEmpty ? null : searchText.text);
               },
               icon: const Icon(Icons.refresh_outlined),
               splashRadius: 18,

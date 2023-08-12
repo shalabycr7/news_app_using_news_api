@@ -1,4 +1,5 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,11 +62,16 @@ class NewsDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       child: SingleChildScrollView(
-                        child: Text(
+                        child: ExpandableText(
                           content,
                           style: GoogleFonts.nunito(
                             fontSize: 13.sp,
                           ),
+                          expandText: '[+ Show more]',
+                          collapseText: '[- Show less]',
+                          maxLines:
+                              4, // Adjust the number of lines to your preference
+                          linkColor: Colors.blue, // Customize link color
                         ),
                       ),
                     ),
