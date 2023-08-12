@@ -46,18 +46,22 @@ class CardImage extends StatelessWidget {
             ScreenUtil().orientation == Orientation.portrait ? 0.3.sh : 0.5.sh,
         child: Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: CachedNetworkImage(
-                imageUrl: image,
-                placeholder: (context, url) =>
-                    const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Icon(
-                  Icons.error,
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
                 ),
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
               ),
             ),
             Container(
@@ -75,28 +79,25 @@ class CardImage extends StatelessWidget {
                   Text(
                     'by $author',
                     style: GoogleFonts.nunito(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   SizedBox(height: 5.h),
                   Text(
                     title,
                     style: GoogleFonts.lora(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   SizedBox(height: 5.h),
                   Text(
                     bottom,
                     style: GoogleFonts.nunito(
-                      fontSize: 9.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                        fontSize: 9.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ],
               ),

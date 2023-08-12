@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:news_wave/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
 import 'package:news_wave/data/repositories/all_news_repo.dart';
@@ -55,7 +56,9 @@ class Home extends StatelessWidget {
     await prefs.setBool('alreadySeen', true);
   }
 
-  Widget _buildSearchBar(BuildContext context) {
+  Widget _buildSearchBar(
+    BuildContext context,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -65,7 +68,6 @@ class Home extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(horizontal: 15),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
-                borderSide: const BorderSide(),
               ),
               hintText: 'Search',
               hintStyle: GoogleFonts.nunito(
@@ -87,12 +89,12 @@ class Home extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primaryContainer,
           ),
           child: IconButton(
             icon: Icon(
               Icons.light_mode_outlined,
-              color: Theme.of(context).indicatorColor,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             iconSize: 27,
             onPressed: () {
@@ -114,7 +116,7 @@ class Home extends StatelessWidget {
               "Latest News",
               style: GoogleFonts.lora(
                 fontSize: 17.sp,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
             IconButton(
@@ -122,6 +124,7 @@ class Home extends StatelessWidget {
                 context.read<AllNewsCubit>().getAllNews();
               },
               icon: const Icon(Icons.refresh_outlined),
+              splashRadius: 18,
             ),
           ],
         ),
@@ -159,8 +162,25 @@ class Home extends StatelessWidget {
               },
             );
           } else {
-            return const Center(
-              child: Text("Error"),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Lottie.asset(
+                    'assets/images/error_animation.json',
+                    width: 200.w,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    'An error has occurred',
+                    style: GoogleFonts.quicksand(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
             );
           }
         },

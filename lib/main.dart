@@ -14,7 +14,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool alreadySeen = prefs.getBool('alreadySeen') ?? false;
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FireBaseApi().intitNot();
   runApp(MyApp(alreadySeen: alreadySeen));
@@ -46,11 +45,7 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: 'News Wave',
-                theme: ThemeData(
-                    useMaterial3: true, colorScheme: lightColorScheme),
-                darkTheme:
-                    ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-                themeMode: ThemeMode.system,
+                theme: isDarkMode ? darkTheme : lightTheme,
                 home: alreadySeen ? const Home() : const OnBoardingScreen(),
               );
             },
