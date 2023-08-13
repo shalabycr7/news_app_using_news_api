@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_wave/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
+import 'package:news_wave/data/repositories/all_news_repo.dart';
 import 'package:news_wave/firebase_options.dart';
 import 'package:news_wave/screens/home_screen.dart';
 import 'package:news_wave/screens/onboarding_screen.dart';
@@ -38,8 +39,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AllNewsCubit>(create: (_) => AllNewsCubit()),
-        BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
+        BlocProvider<AllNewsCubit>(create: (_) => AllNewsCubit(AllNewsRepo())),
+        BlocProvider<ThemeCubit>(create: (_) => ThemeCubit(false)),
       ],
       child: BlocBuilder<ThemeCubit, bool>(
         builder: (context, isDarkMode) {
