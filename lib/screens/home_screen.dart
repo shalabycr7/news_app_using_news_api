@@ -81,7 +81,8 @@ class Home extends StatelessWidget {
                 iconSize: 20,
                 onPressed: () {
                   context.read<AllNewsCubit>().getAllNews(
-                      searchText.text.isEmpty ? null : searchText.text);
+                      searchText.text.isEmpty ? null : searchText.text,
+                      context);
                 },
               ),
             ),
@@ -124,7 +125,7 @@ class Home extends StatelessWidget {
             IconButton(
               onPressed: () {
                 context.read<AllNewsCubit>().getAllNews(
-                    searchText.text.isEmpty ? null : searchText.text);
+                    searchText.text.isEmpty ? null : searchText.text, context);
               },
               icon: const Icon(Icons.refresh_outlined),
               splashRadius: 18,
@@ -140,9 +141,8 @@ class Home extends StatelessWidget {
       child: BlocBuilder<AllNewsCubit, AllNewsState>(
         builder: (context, state) {
           if (state is AllNewsInitial) {
-            context
-                .read<AllNewsCubit>()
-                .getAllNews(searchText.text.isEmpty ? null : searchText.text);
+            context.read<AllNewsCubit>().getAllNews(
+                searchText.text.isEmpty ? null : searchText.text, context);
             return const Center(child: CircularProgressIndicator());
           } else if (state is AllNewsLoading) {
             return ListView.builder(
@@ -165,7 +165,7 @@ class Home extends StatelessWidget {
                             ),
                             child: const Center(
                               child: Opacity(
-                                  opacity: 0.5,
+                                  opacity: 0.0,
                                   child: Icon(Icons.image_outlined)),
                             ),
                           ),
@@ -186,7 +186,7 @@ class Home extends StatelessWidget {
                   content: state.finalData.articles![index].content!,
                   date:
                       state.finalData.articles![index].publishedAt ?? 'unknown',
-                      link: state.finalData.articles![index].url!,
+                  link: state.finalData.articles![index].url!,
                 );
               },
             );

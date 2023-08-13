@@ -8,6 +8,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
 import 'package:news_wave/screens/home_screen.dart';
+import 'package:news_wave/shared/snackbar.dart';
 import 'package:news_wave/theme/color_schemes.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -41,14 +42,8 @@ class OnBoardingPageState extends State<OnBoardingScreen> {
         sound: true,
         announcement: false,
         provisional: false);
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      if (kDebugMode) {
-        print('user granted permiit');
-      }
-    } else {
-      if (kDebugMode) {
-        print('user did not grant');
-      }
+    if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+      showErrorSnackbar(context, "Notification permission is not granted");
     }
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (kDebugMode) {
