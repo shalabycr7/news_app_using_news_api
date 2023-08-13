@@ -12,39 +12,34 @@ import 'package:news_wave/screens/onboarding_screen.dart';
 import 'package:news_wave/theme/color_schemes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  final prefs = await SharedPreferences.getInstance();
+  final alreadySeen = prefs.getBool('alreadySeen') ?? false;
+
+  runApp(MyApp(alreadySeen: alreadySeen));
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (kDebugMode) {
     print(message);
   }
 }
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool alreadySeen = prefs.getBool('alreadySeen') ?? false;
-  runApp(MyApp(alreadySeen: alreadySeen));
-}
-
 class MyApp extends StatelessWidget {
   final bool alreadySeen;
 
-  const MyApp({super.key, required this.alreadySeen});
+  const MyApp({Key? key, required this.alreadySeen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AllNewsCubit>(
-          create: (context) => AllNewsCubit(),
-        ),
-        BlocProvider<ThemeCubit>(
-          create: (context) => ThemeCubit(),
-        ),
+        BlocProvider<AllNewsCubit>(create: (_) => AllNewsCubit()),
+        BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
       ],
       child: BlocBuilder<ThemeCubit, bool>(
         builder: (context, isDarkMode) {
@@ -52,7 +47,7 @@ class MyApp extends StatelessWidget {
             designSize: const Size(360, 690),
             minTextAdapt: true,
             splitScreenMode: true,
-            builder: (BuildContext context, Widget? child) {
+            builder: (context, _) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: 'News Wave',

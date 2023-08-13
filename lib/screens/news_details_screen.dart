@@ -40,9 +40,9 @@ class NewsDetailsScreen extends StatelessWidget {
         return Theme(
           data: currentTheme,
           child: Scaffold(
-            backgroundColor: currentTheme.scaffoldBackgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
             floatingActionButton: FloatingActionButton(
-                tooltip: 'Add to favorite',
+                tooltip: 'Open in browser',
                 onPressed: () {
                   _launchUrl(givenUrl);
                 },
@@ -56,111 +56,118 @@ class NewsDetailsScreen extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  Positioned(
-                    top: 0,
-                    child: SizedBox(
-                      height: ScreenUtil().orientation == Orientation.portrait
-                          ? 0.6.sh
-                          : 0.5.sh,
-                      width: ScreenUtil().screenWidth,
-                      child: Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: ScreenUtil().orientation == Orientation.portrait
-                        ? 0.46.sh
-                        : 0.56.sh,
-                    width: ScreenUtil().screenWidth,
-                    padding: EdgeInsets.fromLTRB(
-                        20,
-                        ScreenUtil().orientation == Orientation.portrait
-                            ? 0.12.sh
-                            : 0.16.sh,
-                        20,
-                        0),
-                    decoration: BoxDecoration(
-                      color: currentTheme.scaffoldBackgroundColor,
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Text(
-                        content * 5,
-                        style: GoogleFonts.nunito(
-                          fontSize: 15.sp,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: ScreenUtil().orientation == Orientation.portrait
-                        ? 0.44.sh
-                        : 0.26.sh,
-                    child: BlurryContainer(
-                      width: 0.8.sw,
-                      blur: 50,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
-                      height: ScreenUtil().orientation == Orientation.portrait
-                          ? 0.2.sh
-                          : 0.32.sh,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Spacer(),
-                          Text(
-                            date,
-                            style: GoogleFonts.nunito(
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            desc,
-                            style: GoogleFonts.lora(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "Published by $author",
-                            style: GoogleFonts.nunito(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 55,
-                    left: 15,
-                    child: BlurryContainer(
-                      blur: 50,
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios_outlined,
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
-                      ),
-                    ),
-                  ),
+                  _buildImage(),
+                  _buildContentContainer(context),
+                  _buildBlurryDetails(),
+                  _buildBackButton(context),
                 ],
               ),
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildImage() {
+    return Positioned(
+      top: 0,
+      child: SizedBox(
+        height:
+            ScreenUtil().orientation == Orientation.portrait ? 0.6.sh : 0.5.sh,
+        width: ScreenUtil().screenWidth,
+        child: Image.network(
+          image,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContentContainer(BuildContext context) {
+    return Container(
+      height:
+          ScreenUtil().orientation == Orientation.portrait ? 0.46.sh : 0.56.sh,
+      width: ScreenUtil().screenWidth,
+      padding: EdgeInsets.fromLTRB(
+          20,
+          ScreenUtil().orientation == Orientation.portrait ? 0.12.sh : 0.16.sh,
+          20,
+          0),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Text(
+          content * 5,
+          style: GoogleFonts.nunito(
+            fontSize: 15.sp,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBlurryDetails() {
+    return Positioned(
+      top: ScreenUtil().orientation == Orientation.portrait ? 0.44.sh : 0.26.sh,
+      child: BlurryContainer(
+        width: 0.8.sw,
+        blur: 50,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        height:
+            ScreenUtil().orientation == Orientation.portrait ? 0.2.sh : 0.32.sh,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Spacer(),
+            Text(
+              date,
+              style: GoogleFonts.nunito(
+                fontSize: 10.sp,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              desc,
+              style: GoogleFonts.lora(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              "Published by $author",
+              style: GoogleFonts.nunito(
+                fontSize: 8.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBackButton(BuildContext context) {
+    return Positioned(
+      top: 55,
+      left: 15,
+      child: BlurryContainer(
+        blur: 50,
+        child: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_outlined,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+        ),
+      ),
     );
   }
 }

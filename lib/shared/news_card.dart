@@ -26,7 +26,7 @@ class CardImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
           context,
@@ -49,66 +49,81 @@ class CardImage extends StatelessWidget {
             ScreenUtil().orientation == Orientation.portrait ? 0.3.sh : 0.5.sh,
         child: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: image,
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(
-                    Icons.hide_image_outlined,
-                  ),
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                ),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(67, 67, 67, 0.5),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    author,
-                    style: GoogleFonts.nunito(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    title,
-                    style: GoogleFonts.lora(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    bottom,
-                    style: GoogleFonts.nunito(
-                        fontSize: 9.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
+            _buildImage(),
+            _buildOverlay(),
+            _buildTextContent(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: CachedNetworkImage(
+          imageUrl: image,
+          placeholder: (context, url) =>
+              const Center(child: CircularProgressIndicator()),
+          errorWidget: (context, url, error) => const Icon(
+            Icons.hide_image_outlined,
+          ),
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOverlay() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(67, 67, 67, 0.5),
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+
+  Widget _buildTextContent() {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            author,
+            style: GoogleFonts.nunito(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            title,
+            style: GoogleFonts.lora(
+              fontSize: 15.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            bottom,
+            style: GoogleFonts.nunito(
+              fontSize: 9.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }
