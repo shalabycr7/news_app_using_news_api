@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,42 @@ class OnBoardingPageState extends State<OnBoardingScreen> {
 
   Widget _buildImage(String assetName, double width) {
     return SvgPicture.asset('assets/images/$assetName', width: width);
+  }
+
+  void requirePermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        sound: true,
+        announcement: false,
+        provisional: false);
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      if (kDebugMode) {
+        print('user granted permiit');
+      }
+    } else {
+      if (kDebugMode) {
+        print('user did not grant');
+      }
+    }
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (kDebugMode) {
+        print('title : ${message.notification?.title}');
+      }
+      if (kDebugMode) {
+        print('body : ${message.notification?.body}');
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    requirePermission();
   }
 
   @override

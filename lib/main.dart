@@ -1,16 +1,30 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_wave/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
+import 'package:news_wave/firebase_options.dart';
 import 'package:news_wave/screens/home_screen.dart';
 import 'package:news_wave/screens/onboarding_screen.dart';
 import 'package:news_wave/theme/color_schemes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  if (kDebugMode) {
+    print(message);
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
