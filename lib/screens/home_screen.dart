@@ -86,6 +86,10 @@ class Home extends StatelessWidget {
                 },
               ),
             ),
+            onEditingComplete: () {
+              context.read<AllNewsCubit>().getAllNews(
+                  searchText.text.isEmpty ? null : searchText.text, context);
+            },
           ),
         ),
         SizedBox(width: 20.w),

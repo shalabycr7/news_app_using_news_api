@@ -89,8 +89,7 @@ class NewsDetailsScreen extends StatelessWidget {
                     ),
                     child: SingleChildScrollView(
                       child: Text(
-                        content * 4,
-                        overflow: TextOverflow.visible,
+                        content * 5,
                         style: GoogleFonts.nunito(
                           fontSize: 15.sp,
                         ),
