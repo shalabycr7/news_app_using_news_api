@@ -33,4 +33,4 @@ News app using flutter.
 
 Watch a video demo of the app :
 
-[![Video Demo](https://img.youtube.com/vi/V4Dt4iWQn7c/0.jpg)](https://www.youtube.com/watch?v=V4Dt4iWQn7c)
+[<img src="https://th.bing.com/th/id/R.c9d1e8e340d6e1b8fb8e7d38f76d5741?rik=alqdTxPDUF%2f6eg&pid=ImgRaw&r=0" width="20%">](https://www.youtube.com/watch?v=V4Dt4iWQn7c "App Preview")
