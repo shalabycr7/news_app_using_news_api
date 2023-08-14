@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:news_wave/data/cubits/all_news_cubit/cubit/all_news_cubit.dart';
+import 'package:news_wave/data/cubits/all_news_cubit/cubit/all_news_state.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
 import 'package:news_wave/shared/news_card.dart';
 import 'package:news_wave/theme/color_schemes.dart';
@@ -81,10 +82,15 @@ class Home extends StatelessWidget {
                 iconSize: 20,
                 onPressed: () {
                   context.read<AllNewsCubit>().getAllNews(
-                      searchText.text.isEmpty ? null : searchText.text);
+                      searchText.text.isEmpty ? null : searchText.text,
+                      context);
                 },
               ),
             ),
+            onEditingComplete: () {
+              context.read<AllNewsCubit>().getAllNews(
+                  searchText.text.isEmpty ? null : searchText.text, context);
+            },
           ),
         ),
         SizedBox(width: 20.w),
@@ -124,7 +130,7 @@ class Home extends StatelessWidget {
             IconButton(
               onPressed: () {
                 context.read<AllNewsCubit>().getAllNews(
-                    searchText.text.isEmpty ? null : searchText.text);
+                    searchText.text.isEmpty ? null : searchText.text, context);
               },
               icon: const Icon(Icons.refresh_outlined),
               splashRadius: 18,
@@ -140,9 +146,8 @@ class Home extends StatelessWidget {
       child: BlocBuilder<AllNewsCubit, AllNewsState>(
         builder: (context, state) {
           if (state is AllNewsInitial) {
-            context
-                .read<AllNewsCubit>()
-                .getAllNews(searchText.text.isEmpty ? null : searchText.text);
+            context.read<AllNewsCubit>().getAllNews(
+                searchText.text.isEmpty ? null : searchText.text, context);
             return const Center(child: CircularProgressIndicator());
           } else if (state is AllNewsLoading) {
             return ListView.builder(
@@ -165,7 +170,7 @@ class Home extends StatelessWidget {
                             ),
                             child: const Center(
                               child: Opacity(
-                                  opacity: 0.5,
+                                  opacity: 0.0,
                                   child: Icon(Icons.image_outlined)),
                             ),
                           ),
@@ -173,22 +178,42 @@ class Home extends StatelessWidget {
               },
             );
           } else if (state is AllNewsSuccess) {
-            return ListView.builder(
-              itemCount: state.finalData.totalResults,
-              itemBuilder: (context, index) {
-                return CardImage(
-                  image: state.finalData.articles![index].urlToImage ??
-                      'https://th.bing.com/th/id/R.f3dbaf93c4c0ebeade43b9282937c0c3?rik=jqMOujmrsFjrWw&pid=ImgRaw&r=0',
-                  title: state.finalData.articles![index].title ?? "unknown",
-                  author: state.finalData.articles![index].author ?? 'unknown',
-                  bottom:
-                      state.finalData.articles![index].description ?? 'unknown',
-                  content: state.finalData.articles![index].content!,
-                  date:
-                      state.finalData.articles![index].publishedAt ?? 'unknown',
-                );
-              },
-            );
+            if (state.finalData.totalResults == 0) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Lottie.asset('assets/icons/not_found_animation.json',
+                        width: 200.w, height: 100.h),
+                    Text(
+                      'No news found',
+                      style: GoogleFonts.quicksand(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: state.finalData.totalResults,
+                itemBuilder: (context, index) {
+                  return CardImage(
+                    image: state.finalData.articles![index].urlToImage ??
+                        'https://th.bing.com/th/id/R.f3dbaf93c4c0ebeade43b9282937c0c3?rik=jqMOujmrsFjrWw&pid=ImgRaw&r=0',
+                    title: state.finalData.articles![index].title ?? "unknown",
+                    author:
+                        state.finalData.articles![index].author ?? 'unknown',
+                    bottom: state.finalData.articles![index].description ??
+                        'unknown',
+                    content: state.finalData.articles![index].content!,
+                    date: state.finalData.articles![index].publishedAt ??
+                        'unknown',
+                    link: state.finalData.articles![index].url!,
+                  );
+                },
+              );
+            }
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +229,7 @@ class Home extends StatelessWidget {
                     'An error has occurred',
                     style: GoogleFonts.quicksand(
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),

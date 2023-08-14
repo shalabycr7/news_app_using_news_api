@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:news_wave/data/cubits/theme_cubit/cubit/theme_cubit.dart';
 import 'package:news_wave/screens/home_screen.dart';
+import 'package:news_wave/shared/snackbar.dart';
 import 'package:news_wave/theme/color_schemes.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -27,6 +29,36 @@ class OnBoardingPageState extends State<OnBoardingScreen> {
 
   Widget _buildImage(String assetName, double width) {
     return SvgPicture.asset('assets/images/$assetName', width: width);
+  }
+
+  void requirePermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        sound: true,
+        announcement: false,
+        provisional: false);
+    if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+      showErrorSnackbar(context, "Notification permission is not granted");
+    }
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (kDebugMode) {
+        print('title : ${message.notification?.title}');
+      }
+      if (kDebugMode) {
+        print('body : ${message.notification?.body}');
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    requirePermission();
   }
 
   @override
