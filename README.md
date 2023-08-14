@@ -7,11 +7,11 @@ News app using flutter.
 - Get news from all over the world.
 - Search for any topic to get news about it.
 - Supports **light/dark** mode across the app based on system settings.
-- Display a breif info about for selected news article such as:
+- Display a brief info about for selected news article such as:
   - Article author
   - Article title
   - Publish date
-  - Bried description
+  - brief description
 - Read the whole article by opening the website link in the browser.
 - The use of `BloC/Cubit` state managment to update the UI.
 - Get remote notifications using `firebase cloud massaging`.
