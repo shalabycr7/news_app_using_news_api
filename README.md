@@ -6,15 +6,16 @@ News app using flutter.
 
 - Get news from all over the world.
 - Search for any topic to get news about it.
-- Supports light/dark mode across the app based on system settings.
+- Supports **light/dark** mode across the app based on system settings.
 - Display a breif info about for selected news article such as:
   - Article author
   - Article title
   - Publish date
   - Bried description
 - Read the whole article by opening the website link in the browser.
-- The use of BloC/Cubit state managment to update the UI.
-- Get remote notifications using firebase cloud massaging.
+- The use of `BloC/Cubit` state managment to update the UI.
+- Get remote notifications using `firebase cloud massaging`.
+- Fetch data from news **API** and check for exceptions before displaying the data.
 
 ## Screenshots
 
@@ -27,3 +28,9 @@ News app using flutter.
 ### Dark Mode
 
 ![app_design4](https://github.com/shalabycr7/news_app_using_news_api/assets/17945581/e965ec48-f3c3-4e9a-9d1d-73cf00323bf3)
+
+## Video Demo
+
+Watch a video demo of the app :
+
+[![Video Demo](https://img.youtube.com/vi/V4Dt4iWQn7c/0.jpg)](https://www.youtube.com/watch?v=V4Dt4iWQn7c)
