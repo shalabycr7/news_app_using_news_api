@@ -1,4 +1,4 @@
-# news_wave
+# News Wave App
 
 News app using flutter.
 
